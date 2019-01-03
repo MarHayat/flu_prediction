@@ -1,5 +1,5 @@
 #function to randomley choose train and test datasets
-PrepareDataRemoveOutliers=function(df,type){
+PrepareDataRemoveOutliers=function(df){
   df$numberTipsTrimmed <- as.numeric(df$numberTipsTrimmed)
   df$sackin<- as.numeric(df$sackin)
   df$colless <- as.numeric(df$colless)
@@ -55,8 +55,10 @@ PrepareDataRemoveOutliers=function(df,type){
     train_ind <- sample(seq_len(nrow(df_cur)), size = smp_size)
     train<- df_cur[train_ind, ]
     test <- df_cur[-train_ind, ]
+    LTT=list(train=train,test=test)
+    return(LTT)
 }
-  #================================================================================================
+#================================================================================================
 TuneParametersR=function(train,test,kernel){
   if(kernel=="linear" | kernel=="radial"){ 
     tune.out=tune(svm, Labels ~ .,
