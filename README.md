@@ -12,26 +12,47 @@ This repository contains the material for the paper:
   
   Here, we explain the procedure to classify the subtrees of H3N2 tree and it is the same for the other types:
   
-  `data=read.csv("~/df_2018-5.csv",sep= ",",header=T,stringsAsFactors=FALSE)
-  load("~/flutree2018-5.Rdata")`
+  Install packeges:
+  ```
+  library(e1071) 
+  library(DMwR) 
+  library(outliers)
+  library(ROCR)
+  library(caret)
+  library(Boruta)
+  library(ape)
+  library(phangorn)
+  source("~/traintest_H3N2.R")
+  ```
+  Read the data:
+  ```
+  data=read.csv("~/df_2018-5.csv",sep= ",",header=T,stringsAsFactors=FALSE)
+  load("~/flutree2018-5.Rdata")
+  ```
   
-  "readData" function read the dataset and do some preproseeing on the data:
-  
-  `df=readData(data,timeFrame=3.4,alpha=1.1,tree,changeLabels=TRUE)`
+  Data preprocessing:
+  ```
+  df=readData(data,timeFrame=3.4,alpha=1.1,tree,changeLabels=TRUE)
+  ```
     Here alpha is the growth ratio, timeFrame is the time from the root of the tree that we prune the future tips and we set changeLabels equal to TRUE in some cases when the AUC is less than 0.50.
     
-   #choose the train and test data
-  `set.seed(123)
+  Choose the train and test data:
+  ```
+  set.seed(123)
   DataTT=PrepareData(df,RemoveOutliers=TRUE,TT=TRUE)
   train=DataTT[[1]]
-  test=DataTT[[2]]`
+  test=DataTT[[2]]
+  ```
   
-  #train the model using the best hyperparameters
-  `svm.fit = svm(data = train, Labels ~ .,
+  Train the model using the best hyperparameters:
+  ```
+  svm.fit = svm(data = train, Labels ~ .,
               kernel ="linear", degree = 3, gamma =   0.03125 , 
-              coef0 = 0, cost =32, nu = 0.5,class.weigth=c("0"=0.50,"1"=0.50))`
-              
-  `svm.prob <- predict(svm.fit, newdata = test)
+              coef0 = 0, cost =32, nu = 0.5,class.weigth=c("0"=0.50,"1"=0.50))
+   ```
+  Test the model:   
+  ```
+  svm.prob <- predict(svm.fit, newdata = test)
   summary(svm.prob)
   agreement <- svm.prob == test$Labels
   acc=length(which(svm.prob == test$Labels))/length(test$Labels)
@@ -43,5 +64,6 @@ This repository contains the material for the paper:
   svmmodel.prediction<-prediction(svmmodel.probs,svmmodel.labels)
   svmmodel.performance<-performance(svmmodel.prediction,"tpr","fpr")
   svmmodel.auc<-performance(svmmodel.prediction,"auc")@y.values[[1]]
-  round(svmmodel.auc,2)`
+  round(svmmodel.auc,2)
+  ```
   
