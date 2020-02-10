@@ -6,7 +6,7 @@ This repository contains the material for the paper:
   In this paper we use longitudinally sampled phylogenetic trees based on hemagglutinin sequences from human influenza viruses, together with counts of epitope site polymorphisms in hemagglutinin,  to predict which influenza virus strains are likely to be successful.  We extract small groups of taxa (subtrees) and use a suite of features of these subtrees as key inputs to the machine learning tools. Using a range of training and testing strategies, including training on H3N2 and testing on H1N1, we find that successful prediction of future expansion of small subtrees is possible from these data, with accuracies of 0.71-0.85 and a classifier 'area under the curve' (AUC) 0.75-0.9.
   
   
-  flutreeH1N1_RLB.Rdata, flutree2018-5.Rdata, InfluenzaB.Rdata are the trees reconstructed from H1N1 strains, H3N2 strains and B strains. 
+  flutreeH1N1_RLB.Rdata, flutree2018-5.Rdata, InfluenzaB.Rdata are the trees reconstructed from H1N1 strains, H3N2 strains and B strains respectively. 
   
   df_H1N1.csv, df_2018-5.csv and df_B.csv contain the features of H1N1 tree, H3N2 tree and B tree respectively.
   
@@ -34,7 +34,7 @@ This repository contains the material for the paper:
   ```
   df=readData(data,timeFrame=3.4,alpha=1.1,tree,changeLabels=TRUE)
   ```
-    Here alpha is the growth ratio, timeFrame is the time from the root of the tree that we prune the future tips and we set changeLabels equal to TRUE in some cases when the AUC is less than 0.50.
+   Here alpha is the growth ratio, timeFrame is the time from the root of the tree that we prune the future tips and we set changeLabels equal to TRUE in some cases when the AUC is less than 0.50.
     
   Choose the train and test data:
   ```
